@@ -1,27 +1,26 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import Search from './components/Search'
+import List from './components/List'
 
 export default class App extends Component {
 
-	getStudentData = ()=>{
-		axios.get('http://localhost:3000/api1/students').then(
-			response => {console.log('成功了',response.data);},
-			error => {console.log('失败了',error);}
-		)
-	}
+	state = { //初始化状态
+		users:[], //users初始值为数组
+		isFirst:true, //是否为第一次打开页面
+		isLoading:false,//标识是否处于加载中
+		err:'',//存储请求相关的错误信息
+	} 
 
-	getCarData = ()=>{
-		axios.get('http://localhost:3000/api2/cars').then(
-			response => {console.log('成功了',response.data);},
-			error => {console.log('失败了',error);}
-		)
+	//更新App的state
+	updateAppState = (stateObj)=>{
+		this.setState(stateObj)
 	}
 
 	render() {
 		return (
-			<div>
-				<button onClick={this.getStudentData}>点我获取学生数据</button>
-				<button onClick={this.getCarData}>点我获取汽车数据</button>
+			<div className="container">
+				<Search updateAppState={this.updateAppState}/>
+				<List {...this.state}/>
 			</div>
 		)
 	}
